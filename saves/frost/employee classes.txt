@@ -1,0 +1,96 @@
+package dev.dandeac.data_api.entity;
+
+import dev.dandeac.data_api.dtos.ClientDTO;
+import dev.dandeac.data_api.dtos.EmployeeDTO;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.UuidGenerator;
+
+import java.util.UUID;
+
+@Setter
+@Getter
+@Entity
+@Table(name = "employee_tb")
+public class Employee {
+
+        @Id
+        @UuidGenerator(style=UuidGenerator.Style.RANDOM)
+        @Column(name = "employee_id")
+        private UUID employeeId;
+
+        @Column(name = "name")
+        private String name;
+
+
+        @Column(name = "employee_role")
+        @Enumerated(EnumType.STRING)
+        private EmployeeDTO.Role role;
+
+        @Column(name = "schedule_parity")
+        private Boolean scheduleParity;
+
+        @Column(name = "seniority")
+        private EmployeeDTO.Seniority seniority; // nu exista juniori la packageri
+
+        @Column(name = "assigned_shift")
+        private EmployeeDTO.Shift assignedShift;
+
+        @Column(name = "work_hours")
+        private Integer workHours;
+
+        public Employee() {
+        }
+
+        public Employee(String name, EmployeeDTO.Role role) {
+            this.name = name;
+            this.role = role;
+        }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package dev.dandeac.data_api.dtos;
+
+public class EmployeeDTO {
+
+    public enum Role {
+        CHEF,
+        PACKAGER
+    }
+
+    public enum Seniority {
+        EXPERIENCED, // 100        / 100
+        JUNIOR, // 50           % 100 ? x < 50 : 1 junior else 2 juniori
+    }
+
+    public enum Shift{
+        MORNING, // packager 6 - 14,
+        NOON, // chef 14 - 22,
+        NIGHT, // chef 22 - 6
+        NONE
+    }
+}
+

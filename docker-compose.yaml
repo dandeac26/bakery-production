@@ -1,0 +1,46 @@
+version: '3.9'
+
+services:
+  bakery-db:
+    image: postgres:14-alpine
+    container_name: bakery-db
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=password19
+      - POSTGRES_USER=bakery
+      - POSTGRES_DB=test_bakery_db
+    volumes:
+      - ./bakery_data:/var/lib/postgresql/data
+
+  data-api:
+    container_name: data-api
+    restart: always
+    build: 
+      context: ./microservices/Java/data-api
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://bakery-db:5432/test_bakery_db
+      SPRING_DATASOURCE_USERNAME: bakery
+      SPRING_DATASOURCE_PASSWORD: password19
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - bakery-db
+
+  websocket-service:
+    container_name: websocket-service
+    restart: always
+    build: 
+      context: ./microservices/Python/orders-management/test2
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATA_API_HOST=data-api
+    depends_on:
+      - data-api
+
+volumes:
+  bakery_data:
