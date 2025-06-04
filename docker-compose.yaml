@@ -7,9 +7,9 @@ services:
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_PASSWORD: ${DB_PASSWORD}
-      - POSTGRES_USER: ${DB_USERNAME}
-      - POSTGRES_DB=test_bakery_db
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_DB: test_bakery_db
     volumes:
       - ./bakery_data:/var/lib/postgresql/data
 
