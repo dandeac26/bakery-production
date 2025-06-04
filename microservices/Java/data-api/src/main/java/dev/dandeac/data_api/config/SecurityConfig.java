@@ -43,16 +43,29 @@ public class SecurityConfig {
         return source;
     }
 
+    // @Bean
+    // public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+    //     return httpSecurity
+    //             .csrf(AbstractHttpConfigurer::disable)
+    //             .authorizeHttpRequests(auth -> auth
+    //                     .anyRequest().permitAll()
+    //             )
+    //             .addFilterBefore(new ApiKeyFilter(apiKey), BasicAuthenticationFilter.class)
+    //             .build();
+    // }
+
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()
-                )
-                .addFilterBefore(new ApiKeyFilter(apiKey), BasicAuthenticationFilter.class)
-                .build();
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(csrf -> csrf.disable())  // Ensure CSRF is fully disabled
+            .authorizeHttpRequests(auth -> auth
+                .anyRequest().permitAll()
+            )
+            .addFilterBefore(new ApiKeyFilter(apiKey), BasicAuthenticationFilter.class);
+
+        return http.build();
     }
+
 
     public static class ApiKeyFilter extends OncePerRequestFilter {
         private final String expectedApiKey;
