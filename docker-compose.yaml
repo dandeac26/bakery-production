@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   bakery-db:
     image: postgres:14-alpine
