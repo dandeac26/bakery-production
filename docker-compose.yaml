@@ -24,6 +24,7 @@ services:
       API_KEY: ${API_KEY}
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
     depends_on:
       - bakery-db
