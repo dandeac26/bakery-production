@@ -7,8 +7,8 @@ services:
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_PASSWORD=password19
-      - POSTGRES_USER=bakery
+      - POSTGRES_PASSWORD: ${DB_PASSWORD}
+      - POSTGRES_USER: ${DB_USERNAME}
       - POSTGRES_DB=test_bakery_db
     volumes:
       - ./bakery_data:/var/lib/postgresql/data
@@ -23,8 +23,9 @@ services:
       - "8080:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://bakery-db:5432/test_bakery_db
-      SPRING_DATASOURCE_USERNAME: bakery
-      SPRING_DATASOURCE_PASSWORD: password19
+      API_KEY: ${API_KEY}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
     depends_on:
       - bakery-db
