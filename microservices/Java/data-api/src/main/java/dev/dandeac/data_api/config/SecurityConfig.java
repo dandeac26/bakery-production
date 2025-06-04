@@ -61,7 +61,7 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())  // Ensure CSRF is fully disabled
             .authorizeHttpRequests(auth -> auth
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
             )
             .addFilterBefore(new ApiKeyFilter(apiKey), BasicAuthenticationFilter.class);
 
