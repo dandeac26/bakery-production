@@ -1,4 +1,6 @@
 
+package dev.dandeac.data_api.config;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
